@@ -138,7 +138,9 @@ function HeicToPngConverter() {
 				{numFiles > 0 && (
 					<div style={{ display: 'flex', padding: '10px' }}>
 						<label className='selected-label'>
-							{numFiles} files selected
+							{numFiles === 1
+								? `${numFiles} file selected`
+								: `${numFiles} files selected`}
 						</label>
 						<button
 							type='button'

@@ -34,3 +34,8 @@ button {
   background-color: #f7f7f7;
 }
 
+.title {
+  font-size: 2rem;
+  padding: 2rem;
+  text-align: center;
+}
