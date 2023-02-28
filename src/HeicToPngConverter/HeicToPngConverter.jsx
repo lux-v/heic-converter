@@ -107,15 +107,7 @@ function HeicToPngConverter() {
 		link.click();
 	}
 
-	const handleInputChange = useCallback((event) => {
-		const files = event.target.files;
-		setInputImageFiles([...files]);
-		setOutputImageFiles([]);
-		setError(null);
-		setNumFiles(files.length);
-	}, []);
-
-	const handleFileremove = useCallback(() => {
+	const handleFileRemove = useCallback(() => {
 		setInputImageFiles([]);
 		setOutputImageFiles([]);
 		setError(null);
@@ -123,8 +115,7 @@ function HeicToPngConverter() {
 	}, []);
 
 	return (
-		<div className='container'>
-			<h1 className='title'>HEIC to PNG Converter</h1>
+		<div className='dropzone-container'>
 			<div
 				className={classnames('dropzone', {
 					accept: isDragAccept,
@@ -151,7 +142,7 @@ function HeicToPngConverter() {
 						</label>
 						<button
 							type='button'
-							onClick={handleFileremove}
+							onClick={handleFileRemove}
 							className={classnames('remove-button', {
 								disabled: isConverting,
 							})}
@@ -173,13 +164,7 @@ function HeicToPngConverter() {
 					Convert
 				</button>
 			</form>
-			<button
-				className='submit-button'
-				onClick={handleDownloadAll}
-				style={{ display: outputImageFiles.length <= 1 && 'none' }}
-			>
-				Download all
-			</button>
+
 			{error && <p className='error-message'>{error}</p>}
 			{isConverting && (
 				<Triangle
@@ -193,29 +178,40 @@ function HeicToPngConverter() {
 				/>
 			)}
 			{outputImageFiles.length > 0 && (
-				<div className='output-container'>
+				<>
 					<p className='output-message'>Conversion complete:</p>
-					{outputImageFiles.map((outputImageFile, index) => (
-						<div key={index} className='output-image-container'>
-							<img
-								src={URL.createObjectURL(outputImageFile)}
-								alt={`Output ${index}`}
-								className='output-image'
-							/>
-							<label className='output-image-label'>
-								{outputImageFile.name}
-							</label>
-							<a
-								href={URL.createObjectURL(outputImageFile)}
-								download={outputImageFile.name}
-								type='image/png'
-								className='download-link'
-							>
-								Download PNG
-							</a>
-						</div>
-					))}
-				</div>
+					<button
+						className='submit-button'
+						onClick={handleDownloadAll}
+						style={{
+							display: outputImageFiles.length <= 1 && 'none',
+						}}
+					>
+						Download all
+					</button>
+					<div className='output-container'>
+						{outputImageFiles.map((outputImageFile, index) => (
+							<div key={index} className='output-image-container'>
+								<img
+									src={URL.createObjectURL(outputImageFile)}
+									alt={`Output ${index}`}
+									className='output-image'
+								/>
+								<label className='output-image-label'>
+									{outputImageFile.name}
+								</label>
+								<a
+									href={URL.createObjectURL(outputImageFile)}
+									download={outputImageFile.name}
+									type='image/png'
+									className='download-link'
+								>
+									Download PNG
+								</a>
+							</div>
+						))}
+					</div>
+				</>
 			)}
 		</div>
 	);

@@ -1,14 +1,14 @@
-.container {
+
+  .dropzone-container{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
-    font-family: Arial, sans-serif;
+    max-width: 80%;
+    margin: auto;
     background-color: #f7f7f7;
-
   }
-  
+
   .title {
     font-size: 2rem;
     margin-bottom: 2rem;
@@ -131,8 +131,9 @@
   
   .output-message {
     font-size: 1.2rem;
-    text-align: center;
+    text-align: left;
     margin: auto;
+    padding: 1rem 0;
   }
   
   .output-image {
