@@ -1,18 +1,27 @@
 import React, { useCallback, useState } from 'react';
 
-import heic2any from 'heic2any';
-import './HeicToPngConverter.css';
-import JSZip from 'jszip';
+// 3rd party libraries
 import { useDropzone } from 'react-dropzone';
+import heic2any from 'heic2any';
+import JSZip from 'jszip';
 import classnames from 'classnames';
 import { Triangle } from 'react-loader-spinner';
 
-function HeicToPngConverter() {
+import { convertOptions } from '../assets/constants/constants.js';
+import './HeicConverter.css';
+
+function HeicConverter() {
 	const [inputImageFiles, setInputImageFiles] = useState([]);
 	const [outputImageFiles, setOutputImageFiles] = useState([]);
 	const [isConverting, setIsConverting] = useState(false);
 	const [error, setError] = useState(null);
 	const [numFiles, setNumFiles] = useState(0); // new state variable
+
+	const [conversionType, setConversionType] = useState('jpeg');
+
+	const handleConversionTypeChange = (event) => {
+		setConversionType(event.target.value);
+	};
 
 	const onDrop = useCallback((acceptedFiles) => {
 		setInputImageFiles([...acceptedFiles]);
@@ -51,16 +60,16 @@ function HeicToPngConverter() {
 			try {
 				const outputImageBlob = await heic2any({
 					blob: inputFile,
-					toType: 'image/png',
+					toType: `image/${conversionType}`,
 				});
 
 				const outputImageFile = new File(
 					[outputImageBlob],
 					inputFile.name
-						.replace('.heic', '.png')
-						.replace('.HEIC', '.png'),
+						.replace('.heic', `.${conversionType}`)
+						.replace('.HEIC', `.${conversionType}`),
 					{
-						type: 'image/png',
+						type: `image/${conversionType}`,
 					}
 				);
 				convertedFiles.push(outputImageFile);
@@ -116,6 +125,21 @@ function HeicToPngConverter() {
 
 	return (
 		<div className='dropzone-container'>
+			<h1 className='title'>
+				HEIC to&nbsp;
+				<select
+					value={conversionType}
+					onChange={handleConversionTypeChange}
+					disabled={isConverting}
+				>
+					{convertOptions.map((option) => (
+						<option key={option.value} value={option.value}>
+							{option.label}
+						</option>
+					))}
+				</select>
+				&nbsp;Converter
+			</h1>
 			<div
 				className={classnames('dropzone', {
 					accept: isDragAccept,
@@ -130,13 +154,19 @@ function HeicToPngConverter() {
 					<p>Drop the files here ...</p>
 				) : (
 					<p>
-						Drag 'n' drop some files here, or click to select files
+						Drag 'n' drop .heic files here, or click to select files
 					</p>
 				)}
 			</div>
 			<form onSubmit={handleFormSubmit} className='form'>
 				{numFiles > 0 && (
-					<div style={{ display: 'flex', padding: '10px' }}>
+					<div
+						style={{
+							display: 'flex',
+							padding: '10px',
+							gap: '10px',
+						}}
+					>
 						<label className='selected-label'>
 							{numFiles === 1
 								? `${numFiles} file selected`
@@ -145,7 +175,7 @@ function HeicToPngConverter() {
 						<button
 							type='button'
 							onClick={handleFileRemove}
-							className={classnames('remove-button', {
+							className={classnames('button remove', {
 								disabled: isConverting,
 							})}
 							disabled={isConverting}
@@ -157,13 +187,15 @@ function HeicToPngConverter() {
 
 				<button
 					type='submit'
-					className={classnames('submit-button', {
+					className={classnames('button ', {
 						disabled: isConverting,
 					})}
 					disabled={isConverting}
 					style={{ display: inputImageFiles.length === 0 && 'none' }}
 				>
-					Convert
+					{isConverting
+						? 'Converting...'
+						: 'Convert to ' + conversionType.toUpperCase()}
 				</button>
 			</form>
 
@@ -183,7 +215,7 @@ function HeicToPngConverter() {
 				<>
 					<p className='output-message'>Conversion complete:</p>
 					<button
-						className='submit-button'
+						className='button'
 						onClick={handleDownloadAll}
 						style={{
 							display: outputImageFiles.length <= 1 && 'none',
@@ -205,10 +237,10 @@ function HeicToPngConverter() {
 								<a
 									href={URL.createObjectURL(outputImageFile)}
 									download={outputImageFile.name}
-									type='image/png'
-									className='download-link'
+									type={`image/${conversionType}`}
+									className='button'
 								>
-									Download PNG
+									Download file
 								</a>
 							</div>
 						))}
@@ -219,4 +251,4 @@ function HeicToPngConverter() {
 	);
 }
 
-export default HeicToPngConverter;
+export default HeicConverter;

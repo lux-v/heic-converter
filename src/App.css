@@ -31,11 +31,17 @@ button {
 
 .container {
   height: 100%;
-  background-color: #f7f7f7;
+  min-height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background-color: #bdddff;
+
 }
 
-.title {
-  font-size: 2rem;
-  padding: 2rem;
-  text-align: center;
-}
+
+
+
+
