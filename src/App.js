@@ -27,7 +27,7 @@ function App() {
           console.error(error)
           setImageUrl(bg1);
         });
-    }, 10000);
+    }, 20000);
   }
 
 
