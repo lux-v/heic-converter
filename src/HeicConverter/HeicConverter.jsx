@@ -7,6 +7,7 @@ import JSZip from 'jszip';
 import classnames from 'classnames';
 import { Triangle } from 'react-loader-spinner';
 
+import logo from '../assets/images/logo.png';
 import { convertOptions } from '../assets/constants/constants.js';
 import './HeicConverter.css';
 
@@ -125,6 +126,17 @@ function HeicConverter() {
 
 	return (
 		<div className='dropzone-container'>
+			{/* <div
+				className='logo'
+				style={{
+					position: 'absolute',
+					left: '10px',
+					top: '10px',
+					width: '100px',
+				}}
+			>
+				<img src={logo} alt='logo' style={{ width: '100%' }} />
+			</div> */}
 			<h1 className='title'>
 				HEIC to&nbsp;
 				<select

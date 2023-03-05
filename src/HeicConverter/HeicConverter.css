@@ -1,4 +1,5 @@
   .dropzone-container{
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -15,7 +16,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 500px;
+  width: 100%;
+  max-width: 500px;
   height: 200px;
   min-height: 100px;
 
