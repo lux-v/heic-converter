@@ -154,7 +154,7 @@ function HeicConverter() {
 					<p>Drop the files here ...</p>
 				) : (
 					<p>
-						Drag 'n' drop .heic files here, or click to select files
+						Drag 'n' drop .heic files here, or click to select them
 					</p>
 				)}
 			</div>
